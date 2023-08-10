@@ -71,7 +71,14 @@ class HashTable { // get O(1), set O(1), deleteKey O(1)
 
 
   resize() {
-    // Your code here
+    this.capacity*=2
+    let newData = new Array(this.capacity).fill(null)
+    let oldData = this.data
+
+    for (let i = 0; i < oldData.length; i++) {
+      newData[i] = oldData[i]
+    }
+    this.data = newData
   }
 
 
