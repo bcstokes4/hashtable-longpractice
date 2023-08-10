@@ -34,27 +34,39 @@ class HashTable { // get O(1), set O(1), deleteKey O(1)
     let i = this.hashMod(key)
     let newPair = new KeyValuePair(key, value)
     let current = this.data[i]
-    if(!current) {
-      current = newPair
-      this.count++
-      return
-    } else if(!current.next && current.key === key){
-      current.value = value
-    } else {
-      while(current) {
-        if(current.key === key) current.value = value
-        current = current.next
+
+    while(current && current.key !== key) {
+          current = current.next
+        }
+        if (current) {
+          current.value = value
+        }
+        else {
+        newPair.next = this.data[i]
+        this.data[i] = newPair
+        this.count++
       }
-      newPair.next = this.data[i]
-      this.data[i] = newPair
-      this.count++
-    }
+
     return this.count
   }
 
 
   read(key) {
-    // Your code here
+
+    let i = this.hashMod(key)
+    let currentPair = this.data[i]
+
+    // if(currentPair.key !== key) return undefined
+
+    while(currentPair) {
+      if(currentPair.key === key) {
+        return currentPair.value
+      }
+      currentPair = currentPair.next
+    }
+    if (!currentPair) {
+      return undefined
+    }
   }
 
 
